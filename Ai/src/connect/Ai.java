@@ -39,7 +39,7 @@ public class Ai extends JFrame {
 
 		win.jpanel01.setBackground(new Color(244, 244, 244)); // jpanel01 µÞ ¹è°æ»ö
 		win.jpanel02.setBackground(new Color(244, 244, 244)); // jpanel02 µÞ ¹è°æ»ö
-		win.jpanel03.setBackground(new Color(244, 244, 244)); // jpanel03 µÞ ¹è°æ»ö
+		//win.jpanel03.setBackground(new Color(244, 244, 244)); // jpanel03 µÞ ¹è°æ»ö
 
 		win.add(win.jpanel01);
 		win.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
