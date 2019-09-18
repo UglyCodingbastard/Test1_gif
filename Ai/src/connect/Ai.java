@@ -39,7 +39,7 @@ public class Ai extends JFrame {
 
 		win.jpanel01.setBackground(new Color(244, 244, 244)); // jpanel01 뒷 배경색
 		win.jpanel02.setBackground(new Color(244, 244, 244)); // jpanel02 뒷 배경색
-		//win.jpanel03.setBackground(new Color(244, 244, 244)); // jpanel03 뒷 배경색
+		win.jpanel03.setBackground(new Color(244, 244, 244)); // jpanel03 뒷 배경색
 
 		win.add(win.jpanel01);
 		win.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -436,7 +436,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		add(ch1);
 
 		ch2 = new Choice(); // 최근 검색어
-		ch2.addItem("최근 검색어");
+		ch2.addItem("추천 검색어");
 		ch2.setBounds(159, 20, 109, 35);
 		add(ch2);
 
