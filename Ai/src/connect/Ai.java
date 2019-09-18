@@ -439,7 +439,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		ch2.addItem("추천 검색어");
 		ch2.setBounds(159, 20, 109, 35);
 		add(ch2);
-// ㅊㄹㅇㅇㄴㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㄹ
+
 //		textField = new JTextField("사용할 사이트"); // 사용할 사이트
 //		textField.setBounds(20, 99, 109, 35);
 //		add(textField);
