@@ -394,7 +394,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 	private JTextField Text_field = new JTextField();
 	private JTextArea Text_area = new JTextArea();
 	private Choice ch1, ch2;
-//dsfdsfdsfdsfsfsfsfsfsfsfddSds
+
 	String var_1 = "";
 
 	public JPanel03(JPanelTest win) {
@@ -505,9 +505,21 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 
 		jButton1.addActionListener(new Play()); // 버튼 클시 음성 시작
 		jButton2.addActionListener(new Home()); // 로그아웃 버튼 누를시 로그인 창 출력
-		jButton3.addActionListener(new search()); // 검색 버튼 누를시 아래에 출력
+		jButton3.addActionListener(new site()); // 검색 버튼 누를시 아래에 출력
 		Text_field.addActionListener(new search()); // Enter 눌렀을 시 아래에 출력
 		jButton4.addActionListener(new Clear());
+	}
+
+	class site implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+			String index = ch1.getSelectedItem();		//choice 에서 클릭한 아이템을 불러온다.
+			Text_area.append(index + newline);			//Text_area에 아이템을 출력후 엔터를 친다
+		}
+		
 	}
 
 	class Clear implements ActionListener {
