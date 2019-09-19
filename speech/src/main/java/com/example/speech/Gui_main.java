@@ -52,7 +52,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 //sadsadsadadadsa
 public class Gui_main extends JFrame {
-
+//수정합니다
    private static final int STREAMING_LIMIT = 290000; // ~5 minutes
 
    public static final String RED = "\033[0;31m";
