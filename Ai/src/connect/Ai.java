@@ -394,7 +394,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 	private JTextField Text_field = new JTextField();
 	private JTextArea Text_area = new JTextArea();
 	private Choice ch1, ch2;
-
+//dsfdsfdsfdsfsfsfsfsfsfsfddSds
 	String var_1 = "";
 
 	public JPanel03(JPanelTest win) {
