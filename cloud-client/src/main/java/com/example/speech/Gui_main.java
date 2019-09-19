@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//이건 주석처리이며 깃 테스트 입니다;
+//이건 주석처리이며 깃 테스트 입니다 그리고 지금은 수정입니다;
 package com.example.speech;
 
 import java.awt.Color;
