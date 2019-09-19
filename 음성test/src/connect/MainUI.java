@@ -326,12 +326,11 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		ch.addItem("www.google.com");
 		ch.addItem("www.daum.net");
 		ch.setBounds(20, 20, 109, 35);
-		add(ch);
 
-		Log_DTO ldto2 = new Log_DTO();
-		//String user_name=ldto2.getlog_name();
-		
-		//System.out.println(db_name);
+//		Log_DTO ldto2 = new Log_DTO();
+//		String user_name=ldto2.getlog_name();
+//		
+//		System.out.println(user_name);
 		JLabel label_user = new JLabel("사용자 이름"); // 로그인한 사용자 id출력하게 해야됨(id 최대 길이를 정해둬야됨
 		label_user.setBounds(300, 8, 60, 50);
 		add(label_user);
