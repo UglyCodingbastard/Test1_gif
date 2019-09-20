@@ -22,8 +22,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.io.IOException;
 import javax.swing.border.LineBorder;
+import connect.JPanel01.Login;
 
 public class Ai extends JFrame {
 	Container pane = getContentPane();// 컨텐트팬 알아내기
@@ -56,14 +57,18 @@ public class Ai extends JFrame {
 //@SuppressWarnings("serial")
 class JPanel01 extends JPanel { // 메인 홈 화면
 	// private JTextField textField;
-	private JPanelTest win;
-	JTextField id = new JTextField();
-	JPasswordField password = new JPasswordField();
-	Color pwd;
+	private static JPanelTest win;
+	static JTextField id = new JTextField("아이디");
+	static JPasswordField pwd = new JPasswordField("비밀번호");
+	static JButton btn = new JButton("로그인");
+	// Color pwd;
+
+	static String login_id;
 
 	public JPanel01(JPanelTest win) {
 		setLayout(null);
 		this.win = win;
+		this.login_id = login_id;
 
 		win.setBackground(new Color(102, 204, 102));
 		BevelBorder bevel = new BevelBorder(BevelBorder.RAISED);
@@ -86,16 +91,15 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 		// id.setColumns(5);
 		add(id);
 
-		password = new JPasswordField("비밀번호");
+		pwd = new JPasswordField("비밀번호");
 		// password.setForeground(Color.RED);
-		password.setBounds(120, 165, 260, 35);
-		password.setForeground(new Color(150, 150, 150));
-		password.addFocusListener(new myFocusListener_password());
+		pwd.setBounds(120, 165, 260, 35);
+		pwd.setForeground(new Color(150, 150, 150));
+		pwd.addFocusListener(new myFocusListener_password());
 		// password.setBorder(b2);
-		add(password);
+		add(pwd);
 
 		// ImageIcon normalicon = new ImageIcon("icon_images/로그인.png");
-		JButton btn = new JButton("로그인");
 		btn.setBackground(new Color(102, 204, 102));
 		btn.setBorder(bevel);
 //		btn.setOpaque(false);	//배경 없애고 테두리하고 클릭시 효과
@@ -148,24 +152,79 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 	class myFocusListener_password extends FocusAdapter { // 아이디 텍스트필드 포커스 이벤트
 
 		public void focusGained(FocusEvent e) { // 포커스를 가져왔을 때
-			if (password.getText().equals("비밀번호")) { // 텍스트 필드에 "비밀번호"문구가 있을경우 빈칸으로 초기화
-				password.setForeground(new Color(0, 0, 0));
-				password.setText("");
+			if (pwd.getText().equals("비밀번호")) { // 텍스트 필드에 "비밀번호"문구가 있을경우 빈칸으로 초기화
+				pwd.setForeground(new Color(0, 0, 0));
+				pwd.setText("");
 			}
 		}
 
 		public void focusLost(FocusEvent e) { // 포커스를 잃어버릴 때
-			if (password.getText().equals("")) {
-				password.setForeground(new Color(150, 150, 150));
-				password.setText("비밀번호");
+			if (pwd.getText().equals("")) {
+				pwd.setForeground(new Color(150, 150, 150));
+				pwd.setText("비밀번호");
 			}
 		}
 	}
 
-	class Login implements ActionListener { // 버튼 키 눌리면 패널 3번(로그인 후 화면) 호출
+	static class Login implements ActionListener { // 버튼 키 눌리면 패널 3번(로그인 후 화면) 호출
+		static String ide;
+		static String pass;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel03");
+
+			Log_DTO ldto = new Log_DTO();
+			Object obj3 = e.getSource();
+
+			String db_id = null;
+			String db_pwd = null;
+			String db_name = null;
+			String db_email = null;
+			if ((JButton) obj3 == btn) { // 로그인 버튼 눌렀을 때
+
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/members", "root",
+							"1234");
+					String get_inputid = id.getText();
+					String get_inputpwd = pwd.getText();
+
+					String qu = "select * from member_info where id=" + "'" + get_inputid + "'";
+					Statement st = con.createStatement();
+					ResultSet rs = st.executeQuery(qu);
+
+					while (rs.next()) {
+
+						db_id = rs.getString("id");
+						db_pwd = rs.getString("pwd");
+						// db_name = rs.getString("name");
+						// db_email = rs.getString("email");
+						// System.out.println(db_id+db_pwd+db_name+db_email);
+
+					}
+
+					if (db_id.equals(id.getText()) && db_pwd.equals(pwd.getText())) {
+
+						ide = db_id;
+						pass = db_pwd;
+						System.out.println(ide);
+						System.out.println(db_pwd);
+						JOptionPane.showMessageDialog(null, "로그인 되었습니다.");
+						win.change("panel03");
+
+					} else {
+						JOptionPane.showMessageDialog(null, "아이디나 패스워드가 일치하지 않습니다.");
+					}
+
+					st.close();
+				} catch (Exception e2) {
+					System.err.println("오류!");
+					System.out.println(e2.getMessage());
+				}
+			}
+//			login_id = id.getText();
+//			System.out.println(login_id);
+//			win.change("panel03");
 		}
 	}
 
@@ -178,6 +237,7 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 	}
 }
 
+//static String login_id1 = login_id;
 class JPanel02 extends JPanel { // 회원가입 화면
 	private JButton jButton1, jButton2, jButton3;
 	private JScrollPane jScrollPane1;
@@ -206,7 +266,6 @@ class JPanel02 extends JPanel { // 회원가입 화면
 		this.win = win;
 		// this.input_pwd = input_pwd;
 		setLayout(null);
-
 		BevelBorder bevel = new BevelBorder(BevelBorder.RAISED);
 
 		JLabel label_id = new JLabel("아이디");
@@ -400,6 +459,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 	public JPanel03(JPanelTest win) {
 		this.win = win;
 		this.Text_field = Text_field;
+		// this.login_id = login_id;
 		setLayout(null);
 
 		BevelBorder bevel = new BevelBorder(BevelBorder.RAISED);
@@ -444,7 +504,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 //		textField.setBounds(20, 99, 109, 35);
 //		add(textField);
 
-		JLabel label_user = new JLabel("사용자이름"); // 로그인한 사용자 id출력하게 해야됨(id 최대 길이를 정해둬야됨
+		JLabel label_user = new JLabel(); // 로그인한 사용자 id출력하게 해야됨(id 최대 길이를 정해둬야됨
 		label_user.setBounds(300, 8, 60, 50);
 		add(label_user);
 
@@ -515,11 +575,17 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			Runtime runtime = Runtime.getRuntime();
+			try {
+				runtime.exec(
+						"C:/Program Files/internet explorer/iexplore.exe https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=날씨&oquery/");
+			} catch (IOException ex) {
 
-			String index = ch1.getSelectedItem();		//choice 에서 클릭한 아이템을 불러온다.
-			Text_area.append(index + newline);			//Text_area에 아이템을 출력후 엔터를 친다
+			}
+			String index = ch1.getSelectedItem(); // choice 에서 클릭한 아이템을 불러온다.
+			Text_area.append(index + newline); // Text_area에 아이템을 출력후 엔터를 친다
 		}
-		
+
 	}
 
 	class Clear implements ActionListener {
