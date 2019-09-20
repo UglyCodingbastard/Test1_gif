@@ -26,6 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+
+import connect.JPanel01.Login;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -57,15 +60,15 @@ public class MainUI extends JFrame {
 class JPanel01 extends JPanel { // 메인 홈 화면
 
 	private JPasswordField passwordField;
-	private JPanelTest win;
-	JButton btn = new JButton("로그인");
-	JTextField id = new JTextField("아이디");
-	JPasswordField pwd = new JPasswordField("비밀번호");
+	private static JPanelTest win;
+	static JButton btn = new JButton("로그인");
+	static JTextField id = new JTextField("아이디");
+	static JPasswordField pwd = new JPasswordField("비밀번호");
 	
 	public JPanel01(JPanelTest win) {
 		setLayout(null);
 		this.win = win;
-
+     
 		win.setBackground(new Color(102, 204, 102));
 		BevelBorder bevel = new BevelBorder(BevelBorder.RAISED);
 
@@ -99,13 +102,14 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 		btn.addActionListener(new Login());
 		btn2.addActionListener(new Membership());
 	}
+   
+	static class Login implements ActionListener { // 로그인 버튼 눌렀을 때, 버튼 키 눌리면 패널 3번(로그인 후 화면) 호출
 
-	class Login implements ActionListener { // 로그인 버튼 눌렀을 때, 버튼 키 눌리면 패널 3번(로그인 후 화면) 호출
-		
-		
+		static String ide;
+	    static String pass;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			 
 			Log_DTO ldto = new Log_DTO();
 			Object obj3 = e.getSource();
 
@@ -131,14 +135,19 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 
 						db_id = rs.getString("id");
 						db_pwd = rs.getString("pwd");
-						db_name = rs.getString("name");
-						db_email = rs.getString("email");						
+						//db_name = rs.getString("name");
+						//db_email = rs.getString("email");						
 						//System.out.println(db_id+db_pwd+db_name+db_email);
 
 					}
 
 					if (db_id.equals(id.getText()) && db_pwd.equals(pwd.getText())) {
-
+						
+						
+						ide=db_id;
+						pass=db_pwd;
+                        System.out.println(ide);
+                        System.out.println(db_pwd);
 						JOptionPane.showMessageDialog(null, "로그인 되었습니다.");
 						win.change("panel03");
 
@@ -311,7 +320,8 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		this.win = win;
 		this.Text_field = Text_field;
 		setLayout(null);
-
+        
+	
 		//Log_DTO ldto = new Log_DTO();
 		
 		//String db_name = ldto.getlog_name();
@@ -327,11 +337,12 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 		ch.addItem("www.daum.net");
 		ch.setBounds(20, 20, 109, 35);
 
-//		Log_DTO ldto2 = new Log_DTO();
-//		String user_name=ldto2.getlog_name();
-//		
-//		System.out.println(user_name);
-		JLabel label_user = new JLabel("사용자 이름"); // 로그인한 사용자 id출력하게 해야됨(id 최대 길이를 정해둬야됨
+		Log_DTO ldto2 = new Log_DTO();
+		String user_name=ldto2.getlog_name();
+		
+		System.out.println(user_name);
+
+		JLabel label_user = new JLabel(user_name); // 로그인한 사용자 id출력하게 해야됨(id 최대 길이를 정해둬야됨
 		label_user.setBounds(300, 8, 60, 50);
 		add(label_user);
 
@@ -409,12 +420,12 @@ class JPanelTest extends JFrame {
 		if (panelName.equals("panel01")) {
 			getContentPane().removeAll();
 			getContentPane().add(jpanel01);
-			revalidate();
+			//revalidate();
 			repaint();
 		} else if (panelName.contentEquals("panel02")) {
 			getContentPane().removeAll();
 			getContentPane().add(jpanel02);
-			revalidate();
+			//revalidate();
 			repaint();
 		} else {
 			getContentPane().removeAll();
