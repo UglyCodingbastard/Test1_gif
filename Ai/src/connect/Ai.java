@@ -184,8 +184,7 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/members", "root",
-							"1234");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/members", "root", "1234");
 					String get_inputid = id.getText();
 					String get_inputpwd = pwd.getText();
 
@@ -207,14 +206,19 @@ class JPanel01 extends JPanel { // 메인 홈 화면
 
 						ide = db_id;
 						pass = db_pwd;
-						System.out.println(ide);
-						System.out.println(db_pwd);
-						JOptionPane.showMessageDialog(null, "로그인 되었습니다.");
-						win.change("panel03");
-
-					} else {
-						JOptionPane.showMessageDialog(null, "아이디나 패스워드가 일치하지 않습니다.");
+						//if(db_id.)
+						if(db_id.equals(null) || db_pwd.equals(null)) {
+							JOptionPane.showMessageDialog(null, "아이디나 패스워드가 일치하지 않습니다.");
+						}else {
+							
+							JOptionPane.showMessageDialog(null, "로그인 되었습니다.");
+							id.setText(""); // 검색 후 검색 칸이 빈칸으로 초기화 돤디.
+							pwd.setText(""); // 검색 후 검색 칸이 빈칸으로 초기화 돤디.
+							win.change("panel03");
+							System.out.println(id);
+						}
 					}
+					
 
 					st.close();
 				} catch (Exception e2) {
@@ -518,6 +522,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 
 		Text_field.setBounds(100, 70, 300, 30); // 검색 창
 		// Text_field.setBorder(b2);
+		
 		add(Text_field);
 		JScrollPane pane = new JScrollPane(Text_area); // JTextArea area = new JTextArea("검색어"); //검색어
 		// Text_area.setBackground(Color.DARK_GRAY); //영역 배경색 지정
@@ -530,7 +535,7 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 
 		Text_area.setEditable(false); // JTextArea 안에 텍스트 입력 금지
 		Text_area.setLineWrap(true); // 행 넘기기 기능 켜기
-
+		//pane.setForeground(Color.darkGray); //글자색 지정
 		Border lineBorder = BorderFactory.createLineBorder(new Color(102, 204, 102), 3); // TextArea의 테두리선의 색을 검정
 																							// 두깨를
 																							// 3px로 설정합니다.
@@ -565,27 +570,9 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 
 		jButton1.addActionListener(new Play()); // 버튼 클시 음성 시작
 		jButton2.addActionListener(new Home()); // 로그아웃 버튼 누를시 로그인 창 출력
-		jButton3.addActionListener(new site()); // 검색 버튼 누를시 아래에 출력
+		jButton3.addActionListener(new search()); // 검색 버튼 누를시 아래에 출력
 		Text_field.addActionListener(new search()); // Enter 눌렀을 시 아래에 출력
 		jButton4.addActionListener(new Clear());
-	}
-
-	class site implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			Runtime runtime = Runtime.getRuntime();
-			try {
-				runtime.exec(
-						"C:/Program Files/internet explorer/iexplore.exe https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=날씨&oquery/");
-			} catch (IOException ex) {
-
-			}
-			String index = ch1.getSelectedItem(); // choice 에서 클릭한 아이템을 불러온다.
-			Text_area.append(index + newline); // Text_area에 아이템을 출력후 엔터를 친다
-		}
-
 	}
 
 	class Clear implements ActionListener {
@@ -626,22 +613,59 @@ class JPanel03 extends JPanel { // 로그인 후 화면
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			// String str = Text_field.getText(); // 돋보기 버튼 누를시 텍스트 필드의 값을 불러옴
+
 			if (e.getSource() == Text_field || e.getSource() == jButton3) { // Enter or 검색 버튼 누를 시 검색 기능
+
 				if (Text_field.getText().equals("")) {
-					// Text_area.setHorizontalAlignment(Text_area.);
-					// Text_area.setAlignment(Component.CENTER);
-					Text_area.append("검색어를 입력해주세요." + newline);
-					// Text_area.setForeground(Color.red); //글자색 지정
-					Text_field.requestFocus();
+					if(ch1.getSelectedItem().equals("사용할 사이트")) {
+						Text_area.setForeground(Color.red); //글자색 지정
+						Text_area.append("검색어와 사이트를 입력해주세요." + newline);
+						Text_field.requestFocus();
+					}else {
+						String index = ch1.getSelectedItem(); // choice 에서 클릭한 아이템을 불러온다.
+						// Text_area.setHorizontalAlignment(Text_area.);
+						// Text_area.setAlignment(Component.CENTER);
+						Runtime runtime = Runtime.getRuntime();
+						try {
+							runtime.exec("C:/Program Files/internet explorer/iexplore.exe " + index);		//선택한 포털사이트의 홈이 뜨게 한다.
+						} catch (IOException ex) {
+
+						}
+					}
+					
 				} else {
-					String str = Text_field.getText(); // 돋보기 버튼 누를시 텍스트 필드의 값을 불러옴
+					String str = Text_field.getText(); // 돋보기 버튼 or 엔터 누를시 텍스트 필드의 값을 불러옴
+					String name1 = str;	//String name1에 str을 저장한다.
+					for (int i = 0; i < name1.length(); i++) {
+
+						name1 = name1.replace("에", "");		//기본 알고리즘을 통해 에,를,해줘 조사 제거
+						name1 = name1.replace("를", "");
+						name1 = name1.replace("해줘", "");
+
+						name1 = name1.replace("네이버",		//네이버란 단어를 발견했을 시 아래와 같은 url로 변환
+								"https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=");
+
+						name1 = name1.replace("검색", "&oquery");		//검색 단어를 발견시 검색기능으로 변환
+					}
+
+					System.out.println(name1); // 가공한 주소 + 키워드 + 동작
+
+					// Text_area.append(index + newline); // Text_area에 아이템을 출력후 엔터를 친다
+					Runtime runtime = Runtime.getRuntime();
+					try {
+						runtime.exec("C:/Program Files/internet explorer/iexplore.exe " + name1);	//기본 익스플로어 뒤에 가공한 url를 입력한다.
+					} catch (IOException ex) {
+
+					}
+
 					Text_area.append(str + newline); // 텍스트area에 텍스트 필드의 값과 + '\n'을 합쳐서 엔터기능 만듬
 					// Text_field.selectAll(); //검색 후 검색 한 텍스트가 전체 드래그 된다.
 					Text_field.requestFocus(); // 검색 버튼 누른 후 텍스트 포커스가 다시 Text_field에 위치한다.
 					// Text_area.setCaretPosition(Text_area.getDocument().getLength());
 					Text_field.setText(""); // 검색 후 검색 칸이 빈칸으로 초기화 돤디.
-				}
 
+				}
 			}
 		}
 	}
@@ -672,5 +696,4 @@ class JPanelTest extends JFrame {
 			repaint();
 		}
 	}
-
 }
