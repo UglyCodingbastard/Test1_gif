@@ -5,35 +5,43 @@
 //import java.sql.Statement;
 //import java.sql.Connection;
 //
-//
 //public class Log_DAO {
 //
 //	public static void main(String[] args) {
-//		String id1;
-//		String pwd1;
-//		MainUI ui = new MainUI();
-//		Log_DTO ldto = new Log_DTO();
-//		
+//
+//	}
+//
+//	public static boolean create(Log_DTO ldto) throws Exception {
+//
+//		boolean flag = false;
+//		String id_num = ldto.getid_num();
+//		Connection con = null;
+//		Statement stmt = null; // 데이터를 전송하는 객체
+//
+//		String sql = "update site_search set naver = naver+1 where id_num=" +"'"+ id_num+"'";
+//
 //		try {
 //			Class.forName("com.mysql.jdbc.Driver");
-//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/members","root","12345");
-//			String a = "'rnfma2413'";
-//			
-//			
-//			String qu = "select * from member_info where id="+a;
-//			Statement st = con.createStatement();
-//			ResultSet rs = st.executeQuery(qu);
-//			
-//			while(rs.next()) {
-//
-//				id1 = rs.getString("id");
-//				pwd1 = rs.getString("pwd");		
-//				System.out.println(id1+"        "+pwd1+"\n");
+//			con = DriverManager.getConnection(
+//					"jdbc:mysql://127.0.0.1/members?useSSL=false&useUnicode=true&characterEncoding=euckr&user=root&password=12345");
+//			stmt = (Statement) con.createStatement();
+//			stmt.executeUpdate(sql);
+//			flag = true;
+//		} catch (Exception e) {
+//			System.out.println(e);
+//			flag = false;
+//		} finally {
+//			try {
+//				if (stmt != null)
+//					stmt.close();
+//				if (con != null)
+//					con.close();
+//			} catch (Exception e) {
+//				System.out.println(e.getMessage());
 //			}
-//			st.close();
-//		}catch(Exception e) {
-//			System.err.println("오류!");
-//			System.out.println(e.getMessage());
+//
 //		}
+//		return flag;
 //	}
+//
 //}

@@ -6,6 +6,15 @@ public class Log_DTO {
 	String log_pwd;
 	String log_name;
 	String log_email;
+	String id_num;
+	
+public String getid_num() {
+		
+		return id_num;
+	}
+	public void setid_num(String id_num) {
+		this.id_num=id_num;
+	}
 	
 	public String getlog_id() {
 		return log_id;
@@ -24,14 +33,14 @@ public class Log_DTO {
 	public String getlog_name() {
 		return log_name;
 	}
-	public void setlog_name() {
+	public void setlog_name(String log_name) {
 		this.log_name=log_name;
 	}
 	
 	public String getlog_email() {
 		return log_email;
 	}
-	public void setlog_email() {
+	public void setlog_email(String log_email) {
 		this.log_email=log_email;
 	}
 }
