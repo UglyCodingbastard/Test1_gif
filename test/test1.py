@@ -4,7 +4,7 @@ conn = pymysql.connect(host='localhost', user='root', password='123', charset='u
 
 try:
     with conn.cursor() as cursor:
-        sql = 'CREATE DATABASE test1'
+        sql = 'CREATE DATABASE test2'
         cursor.execute(sql)
         conn.commit()
 finally:
